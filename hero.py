@@ -30,19 +30,19 @@ class Hero():
         hands:              int    #the number of hands the player has left to equip items
         """
         #basic stats
-        self.name = name;
-        self.character_class = character_class;
-        self.level = 1;
-        self.xp = 0;
+        self.name = name
+        self.character_class = character_class
+        self.level = 1
+        self.xp = 0
         
         #life stats
-        self.health = 100;
-        self.maxHealth = self.health;
+        self.health = 100
+        self.maxHealth = self.health
         self.stamina = 50
-        self.maxStamina = self.stamina;
+        self.maxStamina = self.stamina
         self.maxFood = 63
-        self.food = self.maxFood;
-        self.gold = 0;
+        self.food = self.maxFood
+        self.gold = 0
         
         #attack attributes
         self.attack = 2
@@ -99,10 +99,22 @@ class Hero():
     def give_XP(self, xp):
         self.xp += xp
         print("XP Gained: {}! Your new total is: {} of {}".format(xp, self.xp, (self.level*10)))
-        #levelUp();
+        self.level_up()
         return self.xp
 
-
+    #level_up -->levels up the player
+    def level_up(self):
+        #do they have enough xp to level?
+        if(self.xp >= self.level*10):       #level them up
+            self.level+= 1 #add one to level
+            print("You become Level {}!".format(self.level))
+            self.xp = 0  #set xp to zero
+            self.attack+= 1 #add one to attack
+            self.defense+= 1 #add one to defense
+            self.speed-= 1 #the player gets slower
+            self.maxHealth+= 2 #add 2 to max health
+            self.health = self.maxHealth # set health to max health
+            #self.levelUp = self.levelUp #activates level up perks
 
     def __repr__(self):
         print("""{} has

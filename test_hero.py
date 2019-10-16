@@ -57,8 +57,19 @@ def test_give_hero_food():
 
 def test_give_hero_xp():
     hero = Hero("XP")
-    assert hero.give_XP(50) == 50
+    assert hero.xp == 0
+    hero.give_XP(5)
+    assert hero.xp == 5
 
 def test_give_hero_gold():
     hero = Hero("gold")
     assert hero.give_gold(500) == hero.gold
+
+def test_level_up_hero():
+    hero = Hero("Level up")
+    assert hero.level == 1
+
+    hero.give_XP(10)
+    assert hero.level == 2
+    hero.give_XP(10*hero.level)
+    assert hero.level == 3
