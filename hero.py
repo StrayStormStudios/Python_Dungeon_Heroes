@@ -116,6 +116,46 @@ class Hero():
             self.health = self.maxHealth # set health to max health
             #self.levelUp = self.levelUp #activates level up perks
 
+    #rest - -> handles resting(if enough food)
+    def rest(self):
+        #heal stamina first
+        #do they have enough food?
+        if(self.food >= (self.maxStamina - self.stamina)):
+            self.food = self.food - (self.maxStamina - self.stamina)  #enough food to completely fill stamina
+            self.stamina = self.maxStamina
+            print("\nYou completely regain your stamina. STAMINA: " + self.stamina)  
+        elif(self.food > 0):
+            self.stamina = self.stamina + self.food
+            self.food = 0  #partially fill stamina
+            print("\nYou only have enough food to partially regain your stamina. STAMINA: " + self.stamina)
+        else:
+            print("\nYou are out of food and cannot regain stamina. STAMINA: " + self.stamina)
+        
+        #heal health
+        if(self.food >= (self.maxHealth - self.health) * 10):
+            self.food = self.food - (self.maxHealth - self.health) * 10  #enough food to completely heal
+            self.health = self.maxHealth
+            print("\nYou completely heal up! HEALTH: " + self.health)
+        elif(self.food > 0):
+            self.health = self.health + self.food / 10
+            self.food = 0
+            print("\nYou only have enough food to partially restore your health. HEALTH: " + self.health)
+        else :
+            print("\nYou are out of food and cannot regain health. HEALTH: " + self.health)
+        
+        print("                            .-'''''-.   ")
+        print("                            |'-----'|   ")
+        print("                            |-.....-|   ")
+        print("                            |       |   ")
+        print("                            |       |   ")
+        print("        _,._                |       |   ")
+        print("    __.o`   o`\"-.           |       |   ")
+        print("   .-O o `\"-.o   O )_,._    |       |   ")
+        print("  ( o   O  o )--.-\"`O   o\"-.`'-----'`   ")
+        print("   '--------'  (   o  O    o)           ")
+        print("                `----------`            ")
+        print("Food remaining: " + self.food)
+
     def __repr__(self):
         print("""{} has
         {}/{} hp, stamina {}/{}, & their:

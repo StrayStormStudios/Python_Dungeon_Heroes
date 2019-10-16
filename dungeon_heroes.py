@@ -6,8 +6,6 @@ if __name__ == "__main__":
     #Create a character
     hero = Hero("SandBoi", "Warrior")
 
-    hero.stats()
-
     #Create teams
 
     #Create a new area
