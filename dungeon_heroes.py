@@ -4,7 +4,9 @@ if __name__ == "__main__":
     game_is_running = True
 
     #Create a character
-    hero = Hero("SandBoi")
+    hero = Hero("SandBoi", "Warrior")
+
+    hero.stats()
 
     #Create teams
 

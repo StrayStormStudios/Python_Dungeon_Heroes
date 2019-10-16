@@ -9,11 +9,11 @@ class Hero():
         xp:                 init
         
         --life attributes
-        health:             int     #If this goes to 0, game over
+        health:             int     #If self goes to 0, game over
         maxHealth:          int
         stamina:            int     #used for special attacks
         maxStamina:         int
-        food:               int     used to rest and regain health + stamina
+        food:               int     used to rest and regain health .format( stamina
         maxFood:            int
         gold:               int     #amount of gold the player has
         
@@ -63,10 +63,31 @@ class Hero():
     def set_health(self, new_health):
         self.health = new_health
 
+    #status - -> prints the status of the player
+    def stats(self):
+      print()
+      print("Name: {}".format(self.name))
+      print("Class: {}".format(self.character_class))
+      print("Level: {}".format(self.level))
+      print("Experience: {}".format(self.xp))
+      print("Experience needed: {}".format((self.level * 10)))
+      print()
+      print("Health: {}/{}".format(self.health, self.maxHealth))
+      print("Stamina: {}/{}".format(self.stamina, self.maxStamina))
+      print("Food: {}/{}".format(self.food, self.maxFood))
+      print()
+      print("Attack: {}".format(self.attack))
+      print("Strength: {}".format(self.strength))
+      print("Defense:{}".format(self.defense))
+      print("Armor: {}".format(self.protection))
+      print("Speed: {}".format(self.speed))
+      print()
+
     def __repr__(self):
         print("""{} has
-        {}/{} hp, stamina {}/{}, & there:
+        {}/{} hp, stamina {}/{}, & their:
         strength is:\t {}
         defense is:\t {}
+        armor is:\t {}
         and speed of:\t {}
-        """.format(self.name, self.health, self.maxHealth, self.stamina, self.maxStamina, self.strength, self.defense, self.speed))
+        """.format(self.name, self.health, self.maxHealth, self.stamina, self.maxStamina, self.strength, self.defense, self.protection, self.speed))
