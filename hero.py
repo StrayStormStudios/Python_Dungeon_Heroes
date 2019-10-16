@@ -64,4 +64,9 @@ class Hero():
         self.health = new_health
 
     def __repr__(self):
-        print ("{} has {} hp".format(self.name, self.health))
+        print("""{} has
+        {}/{} hp, stamina {}/{}, & there:
+        strength is:\t {}
+        defense is:\t {}
+        and speed of:\t {}
+        """.format(self.name, self.health, self.maxHealth, self.stamina, self.maxStamina, self.strength, self.defense, self.speed))
