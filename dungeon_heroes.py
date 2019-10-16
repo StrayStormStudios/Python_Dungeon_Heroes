@@ -1,10 +1,17 @@
+from hero import Hero
+
 if __name__ == "__main__":
     game_is_running = True
+
+    #Create a character
+    hero = Hero("SandBoi")
 
     #Create teams
 
     #Create a new area
 
+
+"""
     #play game
     while(game_is_running):
         print("Starting battle")
@@ -16,3 +23,4 @@ if __name__ == "__main__":
         else:
             #resart to play again
             pass
+"""
