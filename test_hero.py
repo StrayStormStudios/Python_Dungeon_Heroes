@@ -49,3 +49,16 @@ def test_hero_defense():
 def test_hero_speed():
     hero = Hero("speed")
     assert hero.speed == 1
+
+
+def test_give_hero_food():
+    hero = Hero("food")
+    assert hero.give_food(50) == hero.food
+
+def test_give_hero_xp():
+    hero = Hero("XP")
+    assert hero.give_XP(50) == 50
+
+def test_give_hero_gold():
+    hero = Hero("gold")
+    assert hero.give_gold(500) == hero.gold

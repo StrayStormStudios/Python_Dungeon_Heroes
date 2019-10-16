@@ -63,7 +63,7 @@ class Hero():
     def set_health(self, new_health):
         self.health = new_health
 
-    #status - -> prints the status of the player
+    #stats - -> prints the status of the player
     def stats(self):
       print()
       print("Name: {}".format(self.name))
@@ -82,6 +82,27 @@ class Hero():
       print("Armor: {}".format(self.protection))
       print("Speed: {}".format(self.speed))
       print()
+    
+    #give_food - -> gives food to the player
+    def give_food(self, food):
+        self.food += food
+        print("Food Looted: {}! Your new total is: {}".format(food, self.food))
+        return self.food
+    
+    #give_gold --> gives gold to the player
+    def give_gold(self, gold):
+        self.gold += gold
+        print("Gold Looted: {}! Your new total is: {}".format(gold, self.gold))
+        return self.gold
+   
+    #give_XP --> gives xp to the player
+    def give_XP(self, xp):
+        self.xp += xp
+        print("XP Gained: {}! Your new total is: {} of {}".format(xp, self.xp, (self.level*10)))
+        #levelUp();
+        return self.xp
+
+
 
     def __repr__(self):
         print("""{} has
