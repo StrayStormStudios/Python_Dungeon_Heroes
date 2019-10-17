@@ -65,7 +65,74 @@ class Monster():
         #display
         self.__repr__()
 
+
 #-------------------End init-------------------
+
+    #singleAttack(Handles a single attack
+    # @param Dice dice - -> a pointer to our dice
+    # Player p - -> a pointer to the player
+    # String response - -> the players response
+    # @return - -> true if player ran successfully, false if not
+    def singleAttack(self, dice, hero, response):
+        # is the player trying to flee?
+        if(response.equals("F")):
+            # did the player run successfully? (Monster + Player will have roll off)
+            if(hero.speed + dice.roll() > self.speed + dice.roll()):
+                return True # the player ran away
+            else :
+                print("\nYou could not run Away...\n")
+        else:
+            # player is fighting
+            attack = hero.attack # copy the attack
+            strength = hero.strength # copy the players damage
+            # is the player doing a strong attack?
+            if(response.equals("S")):
+                # does the player have enough stamina to make a strong attack?
+                if(hero.stamina > 25):
+                    hero.stamina -= 25
+                    attack += 5
+                    strength += 5
+                else:
+                    print("\nYou are too tired to make a Strong attack\n")
+            # end strong attack block
+
+            # generate the player's attack
+            # check to see if the player misses
+            if(attack + dice.roll() < self.defense + dice.roll()):
+                print("You swing and miss!")
+            else:
+                damage = strength + dice.roll() - self.protection - dice.roll() # calculate damage
+            if(damage <= 0): # deflected off armor
+                print("You hit but cause no damage :(")
+            else:
+                # decrease monsters hit-points
+                self.curHealth = self.curHealth - damage;
+                # celebrate the hit!
+                print("You attack the {} and score a hit of {} damage. Monster's Health: ({}/{})".format(self.name, damage, self.curHealth, self.health))
+                # end damage calculation
+            # ends the hit / miss block
+        # closes running block
+
+        # Monsters Attack
+        monster_attack= self.attack + dice.roll() - hero.defense - dice.roll()
+        monster_damage= self.damage + dice.roll() - hero.protection - dice.roll()
+        # did the monster miss?
+        if(monster_attack < 0):
+            print("The {} {} but misses.".format(self.name, self.attack_desc))
+        else:
+            # did they do damage
+            if(monster_damage < 0):
+                print("The {} {} but does no damage.".format(self.name, self.attack_desc))
+            else:                # they did damage
+                hero.health -= monster_damage;
+                print("The {} {} and does {} damage! Your health is now: ({}/{})".format(
+                    self.name, self.attack_desc, monster_damage, hero.health, hero.maxHealth))
+            # end the damage block
+        # end the hit block
+        return False
+
+
+#-------------------End attack-------------------
 
     #stats - -> prints the status of the player
     def stats(self):
