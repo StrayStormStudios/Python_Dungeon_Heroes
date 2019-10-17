@@ -1,25 +1,11 @@
 from hero import Hero
-from monster import Monster
+from prompts import prompt_usr
 
-#gets user input and returns a response
-def prompt_usr(prompt, typ):
-    if typ == "number":
-        response = input(prompt)
-        while not response.isnumeric():
-            print("Try again: ")
-            response = input(prompt)
-        #print("Entering response {}".format(response))
-        return int(response)
-    elif typ == "string":
-        response = input(prompt)
-        while not response.isalpha():
-            print("try again: ")
-            response = input(prompt)
-        #print("Entering response {}".format(response))
-        return str(response)
+hero = None
 
-if __name__ == "__main__":
-    #Intro
+
+def intro():
+    #Display for Intro
     print("""
     ******----******----******
     Welcome to Dungeon Heroes!
@@ -28,49 +14,50 @@ if __name__ == "__main__":
     \^~~~~\\   )  (   /~~~~^/
      ) *** \\  {**}  / *** (
       ) *** \\_ ^^ _/ *** (
-      ) ****   vv   **** (
-       )_****      ****_(
-        )*** m  m ***(
+       ) ****   vv   **** (
+        )_****      ****_(
+          )*** m  m ***(
     """)
 
-    response = prompt_usr("Select(N)ew game or (C)ontinue: \t", "string")
-    if(response == "C"):
-        pass
+def create_character():
+    #name = prompt_usr("Enter your hero's name: \t", "string")
+    #char_class = prompt_usr("What class shall they be, a mighty (W)warrior or cunning (T)thief? \t", "string")
+    #hero = Hero(name, char_class)
+    hero = Hero("bill", "warrior")
+    return hero
+    
+if __name__ == "__main__":
+    intro()
+    #load old game or start a new one
+    #response = prompt_usr("Select(N)ew game or (C)ontinue: \t", "string")
+    #if(response == "C"):
         #try:
-            #g_player = SaveGame.load("saveGame.txt")
+            #hero = SaveGame.load("saveGame.txt")
             #print("File Loaded")
         #catch(FileNotFoundException e):
             #print("SaveGame not found")
             #createCharacter(g_input)
-    else:
-        print("********")
-        print("NEW GAME")
-        print("********")
+    #else:
+        #print("********")
+        #print("NEW GAME")
+        #print("********")
         #Create a character
-        hero = Hero("SandBoi", "Warrior")
-        monster = Monster("Happy Friend")
-        #createCharacter(g_input) # player chooses their player class
-        #g_player.status() # tests player and shows us status
+    hero = create_character()   # player chooses their player class
+    hero.stats()               # tests player and shows us status
 
     #Main loop to play game
     print()
     game_is_running = True
-    while(game_is_running):
-        print("Starting battle")
+    while(game_is_running):    
+        hero.fight_monster()
+
+"""     print("Starting battle")
         get_in = input("Play Again? Y or N: \t")
 
         #Check for Player Input
         if get_in.lower() == "n":
             game_is_running = False
         else:
-            #resart to play again
-            pass
-"""
-boolean playGame = true
-    #starting room
-    if(startRoom(g_input).equals("L")):
-        playGame = false
-    while(playGame):
-        playGame = enterRoom(g_input); # Keep playing until the user quits
+            #resart to play again"""
 
-"""
+

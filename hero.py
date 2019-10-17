@@ -1,3 +1,7 @@
+from monster_list import MonsterList
+from prompts import prompt_usr
+#from dice import Dice
+
 class Hero():
     def __init__(self, name, character_class=None):
         """Attributes (fields)
@@ -72,9 +76,9 @@ class Hero():
       print("Experience: {}".format(self.xp))
       print("Experience needed: {}".format((self.level * 10)))
       print()
-      print("Health: {}/{}".format(self.health, self.maxHealth))
-      print("Stamina: {}/{}".format(self.stamina, self.maxStamina))
-      print("Food: {}/{}".format(self.food, self.maxFood))
+      print("Health: {}/{}".format(self.health, self.max_health))
+      print("Stamina: {}/{}".format(self.stamina, self.max_stamina))
+      print("Food: {}/{}".format(self.food, self.max_food))
       print()
       print("Attack: {}".format(self.attack))
       print("Strength: {}".format(self.strength))
@@ -116,6 +120,101 @@ class Hero():
             self.health = self.max_health # set health to max health
             #self.levelUp = self.levelUp #activates level up perks
 
+#-------------------End Display, Collectables, and Level up-------------------
+    #fight_monster - rolls a random monster and simulates fight
+    #@param - -> input - a scanner console input
+    #@return - -> int (epic treasures in 100s column, Advanced treasures in 10s column, basic treasures in the 1s column, -1 player dead)
+    def fight_monster(self):
+        monster_list = MonsterList()
+        valid_monster = False
+        while(not valid_monster):
+            cur_monster = monster_list.get_monster()
+            if(cur_monster.level <= self.level):
+                valid_monster = True
+        cur_monster.cur_health = cur_monster.health
+        # copy the monsters health
+        print("You come face to face with a {}".format(cur_monster.name))
+        print(cur_monster.desc)
+        print("The {} is poised, ready to attack!".format(cur_monster.name))
+        if(self.level >= cur_monster.level):
+            print("\n***********************")
+            print("Good Monster: {}".format(cur_monster.name))
+        else:
+            print("\n***********************")
+            print("Bad Monster: {}".format(cur_monster.name))
+
+        print("player level: {}".format(self.level))
+        print("Monster level: {}".format(cur_monster.level))
+        print("***********************\n")
+        # calculate potential treasure
+        treasure = cur_monster.epic * 100 + cur_monster.advanced * 10 + cur_monster.basic
+
+        # main fighting loop
+        keep_fighting = True
+        # should we keep fighting
+        while(keep_fighting):
+            # get their input
+            valid_input = False
+            response = ""
+            while(not valid_input):
+                response = prompt_usr("Do you want to (F)lee, make a (S)strong attack, or make a (W)eak attack?", "string")
+                if(response == "F" or response == "S" or response == "W"):
+                    # it is a valid response
+                    valid_input = True
+                else:
+                    print("Invalid input!")
+            # end validInput while
+
+            # generate an attack
+            flee = cur_monster.singleAttack(6, self, response)      #change 6 to dice
+            # handles one attack
+            # did the player flee?
+            if(flee):
+                print("\nYou manage to flee!\n")
+                # no treasure
+                return 0
+            # did the player die?
+            elif(self.health <= 0):
+                # the player died
+                print("\nYou have been slain by a {}".format(cur_monster.name))
+                print("Total Gold: {}, Total Level".format(self.gold, self.level))
+                print("Better luck next time!\n")
+                return -1
+            # did the player win?
+            elif(cur_monster.curHealth <= 0):
+                print("\n*************************************")
+                print("You vanquish the {}".format(cur_monster.name))
+                print("Your Health: {}".formate(self.health))
+
+                # reward with food, gold and xp
+                print("                             .-'''''-.   ")
+                print("                             |'-----'|   ")
+                print("                             |-.....-|   ")
+                print("                             |       |   ")
+                print("                             |       |   ")
+                print("         _,._                |       |   ")
+                print("    __.o`   o`\"-.           |       |   ")
+                print("  .-O o `\"-.o   O )_,._     |       |   ")
+                print(" ( o   O  o )--.-\"`O   o\"-.`'-----'`   ")
+                print("   '--------'  (   o  O    o)            ")
+                print("                `----------`             ")
+                print()
+                self.giveFood(cur_monster.giveFood())
+                print("      \\`\\/\\/\\/`/  ")
+                print("       )======(   ")
+                print("     .'        '.   ")
+                print("    /    _||__   \\   ")
+                print("   /    (_||_     \\   ")
+                print("  |     __||_)     |   ")
+                print("  |       ||       |   ")
+                print("  '.              .'   ")
+                print("    '------------'   ")
+                self.giveGold(cur_monster.giveGold())
+                self.giveXP(cur_monster.xp)
+                return cur_monster.getTreasure()
+        #end keepFight while
+        return -1
+
     #rest - -> handles resting(if enough food)
     def rest(self):
         #heal stamina first
@@ -156,11 +255,13 @@ class Hero():
         print("                `----------`            ")
         print("Food remaining: " + self.food)
 
+"""
     def __repr__(self):
-        print("""{} has
+        print(""{} has
         {}/{} hp, stamina {}/{}, & their:
         strength is:\t {}
         defense is:\t {}
         armor is:\t {}
         and speed of:\t {}
-        """.format(self.name, self.health, self.max_health, self.stamina, self.max_stamina, self.strength, self.defense, self.protection, self.speed))
+        "".format(self.name, self.health, self.max_health, self.stamina, self.max_stamina, self.strength, self.defense, self.protection, self.speed))
+"""

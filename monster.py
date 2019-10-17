@@ -32,7 +32,7 @@ class Monster():
         """
         #main stats
         self.name = name
-        self.description = desc
+        self.desc = desc
         self.attack_description = attack_desc
         self.level = 1
         self.health = 100
@@ -58,9 +58,9 @@ class Monster():
         self.xp = 0
         self.food = self.max_food
         self.gold = 0
-        self.basic = basic;
-        self.advanced = advanced;
-        self.epic = epic;
+        self.basic = basic
+        self.advanced = advanced
+        self.epic = epic
         
         #display
         self.__repr__()
@@ -72,10 +72,10 @@ class Monster():
     # @param Dice dice - -> a pointer to our dice
     # Player p - -> a pointer to the player
     # String response - -> the players response
-    # @return - -> true if player ran successfully, false if not
+    # @return - -> True if player ran successfully, False if not
     def singleAttack(self, dice, hero, response):
         # is the player trying to flee?
-        if(response.equals("F")):
+        if(response == "F"):
             # did the player run successfully? (Monster + Player will have roll off)
             if(hero.speed + dice.roll() > self.speed + dice.roll()):
                 return True # the player ran away
@@ -106,7 +106,7 @@ class Monster():
                 print("You hit but cause no damage :(")
             else:
                 # decrease monsters hit-points
-                self.curHealth = self.curHealth - damage;
+                self.curHealth = self.curHealth - damage
                 # celebrate the hit!
                 print("You attack the {} and score a hit of {} damage. Monster's Health: ({}/{})".format(self.name, damage, self.curHealth, self.health))
                 # end damage calculation
@@ -124,7 +124,7 @@ class Monster():
             if(monster_damage < 0):
                 print("The {} {} but does no damage.".format(self.name, self.attack_desc))
             else:                # they did damage
-                hero.health -= monster_damage;
+                hero.health -= monster_damage
                 print("The {} {} and does {} damage! Your health is now: ({}/{})".format(
                     self.name, self.attack_desc, monster_damage, hero.health, hero.maxHealth))
             # end the damage block
@@ -173,11 +173,12 @@ class Monster():
         treasure = basic + advanced + epic
         return treasure
 
-    def __repr__(self):
-        print("""{} has
+    """def __repr__(self):
+        print(""{} has
         {}/{} hp, stamina {}/{}, & their:
         description is:\t {}
         defense is:\t {}
         armor is:\t {}
         and speed of:\t {}
-        """.format(self.name, self.health, self.current_health, self.stamina, self.max_stamina, self.description, self.defense, self.protection, self.speed))
+        "".format(self.name, self.health, self.current_health, self.stamina, self.max_stamina, self.description, self.defense, self.protection, self.speed))
+"""
