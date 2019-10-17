@@ -1,8 +1,9 @@
+from dice import Dice as dice
 import random
 
 class Monster():
-    def __init__(self, name=None, desc="I'm a monster", attack_desc=None, level=1, health=100, attack=10, damage=10,
-    defense=10, protection=0, speed=2, xp=10, gold=10, food=10, basic=0, advanced=0, epic=0):
+    def __init__(self, name=None, desc="I'm a monster", attack_desc=None, level=0, health=10, attack=0, damage=0,
+    defense=0, protection=0, speed=0, xp=10, gold=10, food=10, basic=0, advanced=0, epic=0):
         """Attributes (fields)
         --Main Attributes
         name:                   String
@@ -20,11 +21,6 @@ class Monster():
         --speed
         speed:                  int         used to run away
         
-        --life attributes
-        stamina:                int         used for special attacks
-        maxStamina:             int
-        maxFood:                int
-
         --treasure fields
         xp:                     int
         gold:                   int         amount of gold the player has
@@ -33,31 +29,26 @@ class Monster():
         #main stats
         self.name = name
         self.desc = desc
-        self.attack_description = attack_desc
-        self.level = 1
-        self.health = 100
+        self.attack_desc = attack_desc
+        self.level = level
+        self.health = health
         self.current_health = self.health
         
         #attack attributes
-        self.attack = 2
-        self.damage = 0
+        self.attack = attack
+        self.damage = damage
         
         #defense attributes
-        self.defense = 2
-        self.protection = 0
+        self.defense = defense
+        self.protection = protection
         
         #speed
-        self.speed = 1
-
-        #life stats
-        self.max_food = 40
-        self.max_stamina = 10
-        self.stamina = self.max_stamina
+        self.speed = speed
 
         #treasure fields
-        self.xp = 0
-        self.food = self.max_food
-        self.gold = 0
+        self.xp = xp
+        self.food = food
+        self.gold = gold
         self.basic = basic
         self.advanced = advanced
         self.epic = epic
@@ -73,7 +64,7 @@ class Monster():
     # Player p - -> a pointer to the player
     # String response - -> the players response
     # @return - -> True if player ran successfully, False if not
-    def singleAttack(self, dice, hero, response):
+    def singleAttack(self, hero, response):
         # is the player trying to flee?
         if(response == "F"):
             # did the player run successfully? (Monster + Player will have roll off)
@@ -86,7 +77,7 @@ class Monster():
             attack = hero.attack # copy the attack
             strength = hero.strength # copy the players damage
             # is the player doing a strong attack?
-            if(response.equals("S")):
+            if(response == "S"):
                 # does the player have enough stamina to make a strong attack?
                 if(hero.stamina > 25):
                     hero.stamina -= 25
@@ -102,15 +93,16 @@ class Monster():
                 print("You swing and miss!")
             else:
                 damage = strength + dice.roll() - self.protection - dice.roll() # calculate damage
-            if(damage <= 0): # deflected off armor
-                print("You hit but cause no damage :(")
-            else:
-                # decrease monsters hit-points
-                self.curHealth = self.curHealth - damage
-                # celebrate the hit!
-                print("You attack the {} and score a hit of {} damage. Monster's Health: ({}/{})".format(self.name, damage, self.curHealth, self.health))
-                # end damage calculation
-            # ends the hit / miss block
+                print("You are Capable of {} Damage".format(damage))
+                if(damage <= 0): # deflected off armor
+                    print("You hit but cause no damage :(")
+                else:
+                    # decrease monsters hit-points
+                    self.cur_health -= damage
+                    # celebrate the hit!
+                    print("You attack the {} and score a hit of {} damage. Monster's Health: ({}/{})".format(self.name, damage, self.cur_health, self.health))
+                    # end damage calculation
+                # ends the hit / miss block
         # closes running block
 
         # Monsters Attack
@@ -126,7 +118,7 @@ class Monster():
             else:                # they did damage
                 hero.health -= monster_damage
                 print("The {} {} and does {} damage! Your health is now: ({}/{})".format(
-                    self.name, self.attack_desc, monster_damage, hero.health, hero.maxHealth))
+                    self.name, self.attack_desc, monster_damage, hero.health, hero.max_health))
             # end the damage block
         # end the hit block
         return False
@@ -143,7 +135,6 @@ class Monster():
       print("Experience needed: {}".format((self.level * 10)))
       print()
       print("Health: {}/{}".format(self.health, self.maxHealth))
-      print("Stamina: {}/{}".format(self.stamina, self.maxStamina))
       print("Food: {}/{}".format(self.food, self.maxFood))
       print()
       print("Attack: {}".format(self.attack))
@@ -166,19 +157,19 @@ class Monster():
 
     #returns the treasure randomly
     def get_treasure(self):
-        basic = random.randint(self.basic)
-        advanced = random.randint(self.advanced)*10
-        epic = random.randint(self.epic)*100
+        basic = random.randint(-1, self.basic)
+        advanced = random.randint(-1, self.advanced)*10
+        epic = random.randint(-1, self.epic)*100
 
         treasure = basic + advanced + epic
         return treasure
 
     """def __repr__(self):
         print(""{} has
-        {}/{} hp, stamina {}/{}, & their:
+        {}/{} hp, & their:
         description is:\t {}
         defense is:\t {}
         armor is:\t {}
         and speed of:\t {}
-        "".format(self.name, self.health, self.current_health, self.stamina, self.max_stamina, self.description, self.defense, self.protection, self.speed))
+        "".format(self.name, self.health, self.current_health, self.description, self.defense, self.protection, self.speed))
 """

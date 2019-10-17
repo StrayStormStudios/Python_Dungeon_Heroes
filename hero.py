@@ -1,6 +1,5 @@
 from monster_list import MonsterList
 from prompts import prompt_usr
-#from dice import Dice
 
 class Hero():
     def __init__(self, name, character_class=None):
@@ -40,27 +39,27 @@ class Hero():
         self.xp = 0
         
         #life stats
-        self.max_health = 100
-        self.health = self.max_health
-        self.stamina = 50
-        self.max_stamina = self.stamina
-        self.max_food = 63
+        self.max_food = 100
+        self.max_stamina = 100
+        self.max_health = 10
         self.food = self.max_food
+        self.health = self.max_health
+        self.stamina = self.max_stamina
         self.gold = 0
         
         #attack attributes
-        self.attack = 2
-        self.strength = 0
+        self.attack = 10
+        self.strength = 1
         
         #defense attributes
-        self.defense = 2
-        self.protection = 0
+        self.defense = 10
+        self.protection = 1
         
         #speed
-        self.speed = 1
+        self.speed = 10
 
         #display
-        self.__repr__()
+        #self.__repr__()
 
 #-------------------End init-------------------
 
@@ -91,12 +90,14 @@ class Hero():
     def give_food(self, food):
         self.food += food
         print("Food Looted: {}! Your new total is: {}".format(food, self.food))
+        self.print_food()
         return self.food
     
     #give_gold --> gives gold to the player
     def give_gold(self, gold):
         self.gold += gold
         print("Gold Looted: {}! Your new total is: {}".format(gold, self.gold))
+        self.print_money()
         return self.gold
    
     #give_XP --> gives xp to the player
@@ -157,7 +158,8 @@ class Hero():
             valid_input = False
             response = ""
             while(not valid_input):
-                response = prompt_usr("Do you want to (F)lee, make a (S)strong attack, or make a (W)eak attack?", "string")
+                print("\nMonster's HP: {}/{} \t Your HP: {}/{}".format(cur_monster.cur_health, cur_monster.health, self.health, self.max_health))
+                response = prompt_usr("Do you want to (F)lee, make a (S)strong attack, or make a (W)eak attack? \t", "string").upper()
                 if(response == "F" or response == "S" or response == "W"):
                     # it is a valid response
                     valid_input = True
@@ -166,7 +168,7 @@ class Hero():
             # end validInput while
 
             # generate an attack
-            flee = cur_monster.singleAttack(6, self, response)      #change 6 to dice
+            flee = cur_monster.singleAttack(self, response)
             # handles one attack
             # did the player flee?
             if(flee):
@@ -177,41 +179,20 @@ class Hero():
             elif(self.health <= 0):
                 # the player died
                 print("\nYou have been slain by a {}".format(cur_monster.name))
-                print("Total Gold: {}, Total Level".format(self.gold, self.level))
+                print("Total Gold: {}, Total Level {}".format(self.gold, self.level))
                 print("Better luck next time!\n")
                 return -1
             # did the player win?
-            elif(cur_monster.curHealth <= 0):
+            elif(cur_monster.cur_health <= 0):
                 print("\n*************************************")
                 print("You vanquish the {}".format(cur_monster.name))
-                print("Your Health: {}".formate(self.health))
+                print("Your Health: {}".format(self.health))
 
                 # reward with food, gold and xp
-                print("                             .-'''''-.   ")
-                print("                             |'-----'|   ")
-                print("                             |-.....-|   ")
-                print("                             |       |   ")
-                print("                             |       |   ")
-                print("         _,._                |       |   ")
-                print("    __.o`   o`\"-.           |       |   ")
-                print("  .-O o `\"-.o   O )_,._     |       |   ")
-                print(" ( o   O  o )--.-\"`O   o\"-.`'-----'`   ")
-                print("   '--------'  (   o  O    o)            ")
-                print("                `----------`             ")
-                print()
-                self.giveFood(cur_monster.giveFood())
-                print("      \\`\\/\\/\\/`/  ")
-                print("       )======(   ")
-                print("     .'        '.   ")
-                print("    /    _||__   \\   ")
-                print("   /    (_||_     \\   ")
-                print("  |     __||_)     |   ")
-                print("  |       ||       |   ")
-                print("  '.              .'   ")
-                print("    '------------'   ")
-                self.giveGold(cur_monster.giveGold())
-                self.giveXP(cur_monster.xp)
-                return cur_monster.getTreasure()
+                self.give_food(cur_monster.give_food())
+                self.give_gold(cur_monster.give_gold())
+                self.give_XP(cur_monster.xp)
+                return cur_monster.get_treasure()
         #end keepFight while
         return -1
 
@@ -242,26 +223,40 @@ class Hero():
         else :
             print("\nYou are out of food and cannot regain health. HEALTH: " + self.health)
         
-        print("                            .-'''''-.   ")
-        print("                            |'-----'|   ")
-        print("                            |-.....-|   ")
-        print("                            |       |   ")
-        print("                            |       |   ")
-        print("        _,._                |       |   ")
-        print("    __.o`   o`\"-.           |       |   ")
-        print("   .-O o `\"-.o   O )_,._    |       |   ")
-        print("  ( o   O  o )--.-\"`O   o\"-.`'-----'`   ")
-        print("   '--------'  (   o  O    o)           ")
-        print("                `----------`            ")
+        self.print_food()
         print("Food remaining: " + self.food)
 
-"""
     def __repr__(self):
-        print(""{} has
+        print("""{} has
         {}/{} hp, stamina {}/{}, & their:
         strength is:\t {}
         defense is:\t {}
         armor is:\t {}
         and speed of:\t {}
-        "".format(self.name, self.health, self.max_health, self.stamina, self.max_stamina, self.strength, self.defense, self.protection, self.speed))
-"""
+        """.format(self.name, self.health, self.max_health, self.stamina, self.max_stamina, self.strength, self.defense, self.protection, self.speed))
+
+    def print_food(self):
+        print("""
+                                .-'''''-.
+                                |'-----'|
+                                |-.....-|
+                                |       |
+                                |       |
+            _,._                |       |
+        __.o`   o`\"-.           |       |
+    .-O o `\"-.o   O )_,._    |       |   
+    ( o   O  o )--.-\"`O   o\"-.`'-----'`
+    '--------'  (   o  O    o)
+                    `----------`    """)
+
+    def print_money(self):
+        print("""
+              \\`\\/\\/\\/`/
+               )======(
+             .'        '.
+            /    _||__   \\
+           /    (_||_     \\
+          |     __||_)     |
+          |       ||       |
+          '.              .'
+            '------------'      """)

@@ -19,11 +19,6 @@ def test_monster_health():
     monster.set_health(10)
     assert monster.current_health == 10
 
-def test_monster_stamina():
-    monster = Monster("stamina")
-    assert monster.stamina == 10
-    assert monster.max_stamina == monster.stamina
-
 def test_monster_food():
     monster = Monster("food")
     assert monster.max_food == 40

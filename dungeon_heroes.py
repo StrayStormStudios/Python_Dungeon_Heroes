@@ -49,15 +49,12 @@ if __name__ == "__main__":
     print()
     game_is_running = True
     while(game_is_running):    
+        print("Starting battle")
         hero.fight_monster()
-
-"""     print("Starting battle")
         get_in = input("Play Again? Y or N: \t")
-
         #Check for Player Input
         if get_in.lower() == "n":
             game_is_running = False
         else:
             #resart to play again"""
-
-
+            pass
