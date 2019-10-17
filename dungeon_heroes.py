@@ -1,4 +1,22 @@
 from hero import Hero
+from monster import Monster
+
+#gets user input and returns a response
+def prompt_usr(prompt, typ):
+    if typ == "number":
+        response = input(prompt)
+        while not response.isnumeric():
+            print("Try again: ")
+            response = input(prompt)
+        #print("Entering response {}".format(response))
+        return int(response)
+    elif typ == "string":
+        response = input(prompt)
+        while not response.isalpha():
+            print("try again: ")
+            response = input(prompt)
+        #print("Entering response {}".format(response))
+        return str(response)
 
 if __name__ == "__main__":
     #Intro
@@ -14,10 +32,9 @@ if __name__ == "__main__":
        )_****      ****_(
         )*** m  m ***(
     """)
-    
-    print("Select (N)ew game or (C)ontinue")
-    response = getResponse()
-    if(response.equals("C")):
+
+    response = prompt_usr("Select(N)ew game or (C)ontinue: \t", "string")
+    if(response == "C"):
         pass
         #try:
             #g_player = SaveGame.load("saveGame.txt")
@@ -31,9 +48,9 @@ if __name__ == "__main__":
         print("********")
         #Create a character
         hero = Hero("SandBoi", "Warrior")
+        monster = Monster("Happy Friend")
         #createCharacter(g_input) # player chooses their player class
         #g_player.status() # tests player and shows us status
-
 
     #Main loop to play game
     print()

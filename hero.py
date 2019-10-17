@@ -12,9 +12,9 @@ class Hero():
         health:             int     #If self goes to 0, game over
         maxHealth:          int
         stamina:            int     #used for special attacks
-        maxStamina:         int
-        food:               int     used to rest and regain health .format( stamina
-        maxFood:            int
+        max_stamina:         int
+        food:               int     used to rest and regain health & stamina
+        max_food:            int
         gold:               int     #amount of gold the player has
         
         --attack attributes
@@ -36,12 +36,12 @@ class Hero():
         self.xp = 0
         
         #life stats
-        self.health = 100
-        self.maxHealth = self.health
+        self.max_health = 100
+        self.health = self.max_health
         self.stamina = 50
-        self.maxStamina = self.stamina
-        self.maxFood = 63
-        self.food = self.maxFood
+        self.max_stamina = self.stamina
+        self.max_food = 63
+        self.food = self.max_food
         self.gold = 0
         
         #attack attributes
@@ -112,8 +112,8 @@ class Hero():
             self.attack+= 1 #add one to attack
             self.defense+= 1 #add one to defense
             self.speed-= 1 #the player gets slower
-            self.maxHealth+= 2 #add 2 to max health
-            self.health = self.maxHealth # set health to max health
+            self.max_health+= 2 #add 2 to max health
+            self.health = self.max_health # set health to max health
             #self.levelUp = self.levelUp #activates level up perks
 
     #rest - -> handles resting(if enough food)
@@ -163,4 +163,4 @@ class Hero():
         defense is:\t {}
         armor is:\t {}
         and speed of:\t {}
-        """.format(self.name, self.health, self.maxHealth, self.stamina, self.maxStamina, self.strength, self.defense, self.protection, self.speed))
+        """.format(self.name, self.health, self.max_health, self.stamina, self.max_stamina, self.strength, self.defense, self.protection, self.speed))

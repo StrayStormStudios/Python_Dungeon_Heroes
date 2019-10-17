@@ -8,7 +8,7 @@ def test_hero_name():
 def test_hero_health():
     hero = Hero("health")
     assert hero.health == 100
-    assert hero.maxHealth == hero.health
+    assert hero.max_health == hero.health
 
     hero.set_health(70)
     assert hero.health == 70
@@ -22,12 +22,12 @@ def test_hero_health():
 def test_hero_stamina():
     hero = Hero("stamina")
     assert hero.stamina == 50
-    assert hero.maxStamina == hero.stamina
+    assert hero.max_stamina == hero.stamina
 
 def test_hero_food():
     hero = Hero("food")
-    assert hero.maxFood == 63
-    assert hero.food == hero.maxFood
+    assert hero.max_food == 63
+    assert hero.food == hero.max_food
 
 def test_hero_gold():
     hero = Hero("gold")
