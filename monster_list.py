@@ -5,17 +5,15 @@ class MonsterList():
     def __init__(self):
         self.monsters = []       # the list of all possible monsters in the game
         self.addGiantRat()
-        """
-        addCyclops()
-        addAngry_Zombie()
-        addFast_Zombie()
-        addZombie()
-        addDragon()
-        addBaby_Dragon()
-        addUnicorn()
-        addTinyBat()
-        addGiantSpider()
-"""
+        self.addCyclops()
+        self.addAngry_Zombie()
+        self.addFast_Zombie()
+        self.addZombie()
+        self.addDragon()
+        self.addBaby_Dragon()
+        self.addUnicorn()
+        self.addTinyBat()
+        self.addGiantSpider()
     
     # getmonster - -> returns a random monster form are list
     def get_monster(self):
@@ -96,7 +94,7 @@ class MonsterList():
                         xp, gold, food, basic, advanced, epic)
 
         #adds to list
-        self.monsters.add(temp)
+        self.monsters.append(temp)
 
     #adds a Ga Spider monster
     def addGiantSpider(self):
@@ -124,7 +122,7 @@ class MonsterList():
                         xp, gold, food, basic, advanced, epic)
 
         #adds to list
-        self.monsters.add(temp)
+        self.monsters.append(temp)
 
     #adds a Cyclops monster
     def addCyclops(self):
@@ -152,7 +150,7 @@ class MonsterList():
                         xp, gold, food, basic, advanced, epic)
 
         #add list
-        self.monsters.add(temp)
+        self.monsters.append(temp)
 
     #adds an Angry_Zombie monster
     def addAngry_Zombie(self):
@@ -180,7 +178,7 @@ class MonsterList():
                         xp, gold, food, basic, advanced, epic)
 
         #add list
-        self.monsters.add(temp)
+        self.monsters.append(temp)
 
     #adds a Zombie monster
     def addZombie(self):
@@ -208,7 +206,7 @@ class MonsterList():
                         xp, gold, food, basic, advanced, epic)
 
         #add list
-        self.monsters.add(temp)
+        self.monsters.append(temp)
 
     #adds a Fast_Zombie monster
     def addFast_Zombie(self):
@@ -236,7 +234,7 @@ class MonsterList():
                         xp, gold, food, basic, advanced, epic)
 
         #add list
-        self.monsters.add(temp)
+        self.monsters.append(temp)
 
     #adds a Dragon monster
     def addDragon(self):
@@ -264,7 +262,7 @@ class MonsterList():
                         xp, gold, food, basic, advanced, epic)
 
         #add list
-        self.monsters.add(temp)
+        self.monsters.append(temp)
 
     #adds a Baby_Dragon monster
     def addBaby_Dragon(self):
@@ -292,7 +290,7 @@ class MonsterList():
                         xp, gold, food, basic, advanced, epic)
 
         #add list
-        self.monsters.add(temp)
+        self.monsters.append(temp)
 
     #adds a Unicorn monster
     def addUnicorn(self):
@@ -320,4 +318,4 @@ class MonsterList():
                         xp, gold, food, basic, advanced, epic)
 
         #add list
-        self.monsters.add(temp)
+        self.monsters.append(temp)
