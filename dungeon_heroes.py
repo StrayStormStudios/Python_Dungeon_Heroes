@@ -1,6 +1,28 @@
-from hero import Hero
 from prompts import prompt_usr
+from hero import Hero
+import random
 
+#chances of getting different rooms
+#0-70  monster
+#71-81 store
+#82-90 1d4 basic treasures
+#91-92 1d2 advanced treasures
+#93  1 epic treasure(unguarded)
+#94-99 exit
+MONSTER_CHANCE = 0
+#60 % chance of fighting a monster
+#public static final int DARK_ROOM_CHANCE = 60
+#(10 % chance) we come to a dark room..
+#public static final int TRAP_ROOM_CHANCE = 80
+#(5 % chance) we come to a dark room..
+BASIC_TREASURE_CHANCE = 85
+#(5 % chance) 1-2 basic items
+ADVANCED_TREASURE_CHANCE = 90
+#(3 % chance) 1-2 advanced items
+EPIC_TREASURE_CHANCE = 93
+#(6 % chance)1-2 epic treasure chest
+EXIT_CHANCE = 99
+# 1 percent of the time we reach exit
 hero = None
 
 def intro():
@@ -17,6 +39,19 @@ def intro():
         )_****      ****_(
           )*** m  m ***(
     """)
+
+def print_chest():
+    print("""
+
+         __________
+        /\\____;;___\\
+       | /         /
+       `. ()()vv() .
+        |\\()()^^() \\
+        | |---------|
+        \\ |    ))   |
+         \\|_________|
+        """)
 
 def create_character():
     name = prompt_usr("Enter your hero's name: \t", "string")
@@ -58,6 +93,60 @@ def load_game():
         print("Not an option, Sorry")
         print("Terminating")
 
+#enterRoom: enters a new room where the player will battle a monster etc
+#@param --> input A scanner to console input
+#@return --> false - stop playing the game, true - keep playing the game (enter a new room
+def enter_room(self):
+    print()
+    print("***************************")
+    print("You have entered a new room")
+    treasure = 0
+    """
+    levelUp = false
+    
+    if(hero.level == 4 or hero.level == 8 or hero.level == 12):
+        if(hero.xp == 0):
+        print()
+        treasure = (int)(Math.floor(Math.random()*2) + 1) * 1 #1 or 2
+        getlevelUp(treasure)
+        levelUp = false
+    """
+    #get our random room
+    room_type = random.random()*100# 0.0 --> 99.9999
+    #are we at the end of the dungeon?
+    #if(room_type >= EXIT_CHANCE):
+    #   return exitRoom(g_input)
+    
+    #is this an epic chest
+    if(room_type >= EPIC_TREASURE_CHANCE):
+        print("$$$EPIC TREASURE ROOM$$$")
+        print_chest()
+        #treasure = (int)(Math.floor(Math.random()*2) + 1) * 100 #100 or 200
+    
+    #is this an advanced treasure room?
+    elif(room_type >= ADVANCED_TREASURE_CHANCE):
+        print("$$$Advanced Treasure Room$$")
+        print_chest()
+        #treasure = (int)(Math.floor(Math.random()*2) + 1) * 10 #10 or 20
+    
+    #is this a basic treasure room?
+    elif(room_type >= BASIC_TREASURE_CHANCE):
+        print("Basic Treasure Room!")
+        print_chest()
+        #treasure = (int)(Math.floor(Math.random()*2) + 1) * 1 #1 or 2
+    
+    #otherwise we fight a monster.
+    else:
+        treasure = hero.fightMonster()
+        if(treasure == -1):
+            return False  #they have died... game over
+        
+    #gives the player randomly rolled treasure
+    self.get_treasure(treasure)
+    
+    #handle Choosing whats next
+    return choice()
+
 #choice: allows the user to(E)enter next room, (R)est, (S)status or open(I)inventory, (Q)quit game
 #@param - -> input A scanner to console input
 #@return - -> true when they hit enter... false to leave the game
@@ -67,7 +156,7 @@ def choice():
     response = ""
     while(not response == "E"):
         response = prompt_usr("Do you want to (R)est to recover stamina and health, check your(S)status, open your (I)inventory, " +
-                            " \n(E)enter the next room, Enter the s(H)op, or save and (Q)uit the game. \t", "string").upper()
+                              " \n(E)enter the next room, Enter the s(H)op, or save and (Q)uit the game. \t", "string").upper()
         # resting
         if(response == "R"):
             hero.rest()
@@ -96,8 +185,6 @@ def choice():
         """
         return True
 
-
-
 if __name__ == "__main__":
     intro()
     
@@ -111,9 +198,7 @@ if __name__ == "__main__":
         #print("Starting battle")
         if hero != None:
             #hero.fight_monster()
-        
-            choice()
-        
+            enter_room()
         play = prompt_usr("Play Again? Y or N: \t", "string").upper()
         if play == "N":
             game_is_running = False
