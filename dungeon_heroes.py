@@ -1,6 +1,9 @@
+from sty import fg, bg, ef, rs, RgbFg
 from prompts import prompt_usr
 from hero import Hero
 import random
+import time
+import os
 
 #chances of getting different rooms
 #0-70  monster
@@ -35,40 +38,14 @@ def intro():
     \^~~~~\\   )  (   /~~~~^/
      ) *** \\  {**}  / *** (
       ) *** \\_ ^^ _/ *** (
-       ) ****   vv   **** (
-        )_****      ****_(
-          )*** m  m ***(
+      ) ****   vv   **** (
+       )_****      ****_(
+         )*** m  m ***(
     """)
 
-def print_chest():
-    print("""
-
-         __________
-        /\\____;;___\\
-       | /         /
-       `. ()()vv() .
-        |\\()()^^() \\
-        | |---------|
-        \\ |    ))   |
-         \\|_________|
-        """)
-
-def create_character():
-    name = prompt_usr("Enter your hero's name: \t", "string")
-    char_class = prompt_usr("What class shall they be, a mighty (W)warrior or cunning (T)thief? \t", "string")
-    hero = Hero(name, char_class)
-    return hero
-
-def restart():
-    print("********")
-    print("NEW GAME")
-    print("********\n")
-    hero = create_character()   # player chooses their player class
-    hero.stats()               # tests player and shows us status
-    return hero
-
 def load_game():
-    response = prompt_usr("Select (N)ew game or (C)ontinue: \t", "string").upper()
+    response = prompt_usr(
+        "Select (N)ew game or (C)ontinue: \t", "string").upper()
     if(response == "C"):
         #try:
             #hero = SaveGame.load("saveGame.txt")
@@ -83,7 +60,8 @@ def load_game():
         print("\nThree months ago, you set out from your village looking for glory and riches.")
         print("After a long journey into the mountains, you came across a cave.")
         print("You hear horrible noises coming from inside.")
-        response = prompt_usr("Do you want to (E)enter or (L)leave? \t", "string").upper()
+        response = prompt_usr(
+            "Do you want to (E)enter or (L)leave? \t", "string").upper()
         if (response == "E"):
             return hero
         else:
@@ -93,10 +71,50 @@ def load_game():
         print("Not an option, Sorry")
         print("Terminating")
 
+def play(hero):
+    #Main loop to play game
+    if hero != None:
+        game_is_running = True
+    else:
+        game_is_running = False
+    while(game_is_running):
+        #print("Starting battle")
+        #hero.fight_monster()
+        game_is_running = enter_room()
+
+def play_again():
+    play = prompt_usr("Play Again? Y or N: \t", "string").upper()
+    if play == "N":
+        print("Fine")
+        time.sleep(2)
+        print("bye bye")
+    elif play == "Y":
+        #resart to play again
+        return restart()
+    else:
+        print("!!!What!!!\n\n")
+        time.sleep(2)
+        print("Nah Forget it, bye")
+
+def restart():
+    print("********")
+    print("NEW GAME")
+    print("********\n")
+    hero = create_character()   # player chooses their player class
+    hero.stats()               # tests player and shows us status
+    return hero
+
+def create_character():
+    name = prompt_usr("Enter your hero's name: \t", "string")
+    char_class = prompt_usr(
+        "What class shall they be, a mighty (W)warrior or cunning (T)thief? \t", "string")
+    hero = Hero(name, char_class)
+    return hero
+
 #enterRoom: enters a new room where the player will battle a monster etc
 #@param --> input A scanner to console input
 #@return --> false - stop playing the game, true - keep playing the game (enter a new room
-def enter_room(self):
+def enter_room():
     print()
     print("***************************")
     print("You have entered a new room")
@@ -137,12 +155,12 @@ def enter_room(self):
     
     #otherwise we fight a monster.
     else:
-        treasure = hero.fightMonster()
+        treasure = hero.fight_monster()
         if(treasure == -1):
             return False  #they have died... game over
         
     #gives the player randomly rolled treasure
-    self.get_treasure(treasure)
+    #self.get_treasure(treasure)
     
     #handle Choosing whats next
     return choice()
@@ -185,24 +203,25 @@ def choice():
         """
         return True
 
-if __name__ == "__main__":
-    intro()
-    
-    #load old game or start a new one
-    hero = load_game()
+def print_chest():
+    print("""
 
+         __________
+        /\\____;;___\\
+       | /         /
+       `. ()()vv() .
+        |\\()()^^() \\
+        | |---------|
+        \\ |    ))   |
+         \\|_________|
+        """)
+
+if __name__ == "__main__":
+    #Print a cool intro
+    intro()
+    #Load old game or start a new one
+    hero = load_game()
     #Main loop to play game
-    print()
-    game_is_running = True
-    while(game_is_running):
-        #print("Starting battle")
-        if hero != None:
-            #hero.fight_monster()
-            enter_room()
-        play = prompt_usr("Play Again? Y or N: \t", "string").upper()
-        if play == "N":
-            game_is_running = False
-        else:
-            #resart to play again
-            hero = restart()
-            pass
+    play(hero)
+    #Ask to play again
+    play_again()

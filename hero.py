@@ -88,8 +88,11 @@ class Hero():
     
     #give_food - -> gives food to the player
     def give_food(self, food):
-        self.food += food
-        print("Food Looted: {}! Your new total is: {}".format(food, self.food))
+        if self.food < self.max_food:
+            self.food += food
+            print("Food Looted: {}! Your new total is: {}".format(food, self.food))
+        else:
+            print("You have the max amount of food you can hold")
         self.print_food()
         return self.food
     
@@ -198,20 +201,8 @@ class Hero():
 
     #rest - -> handles resting(if enough food)
     def rest(self):
-        #heal stamina first
+        #heal health first
         #do they have enough food?
-        if(self.food >= (self.max_stamina - self.stamina)):
-            self.food = self.food - (self.max_stamina - self.stamina)  #enough food to completely fill stamina
-            self.stamina = self.max_stamina
-            print("\nYou completely regain your stamina. STAMINA: {}".format(self.stamina))
-        elif(self.food > 0):
-            self.stamina = self.stamina + self.food
-            self.food = 0  #partially fill stamina
-            print("\nYou only have enough food to partially regain your stamina. STAMINA: {}".format(self.stamina))
-        else:
-            print("\nYou are out of food and cannot regain stamina. STAMINA: {}".format(self.stamina))
-        
-        #heal health
         if(self.food >= (self.max_health - self.health) * 10):
             self.food = self.food - (self.max_health - self.health) * 10  #enough food to completely heal
             self.health = self.max_health
@@ -223,6 +214,23 @@ class Hero():
         else :
             print("\nYou are out of food and cannot regain health. HEALTH: {}".format(self.health))
         
+        #heal stamina
+        #do they have enough food?
+        if(self.food >= (self.max_stamina - self.stamina)):
+            # enough food to completely fill stamina
+            self.food = self.food - (self.max_stamina - self.stamina)
+            self.stamina = self.max_stamina
+            print("\nYou completely regain your stamina. STAMINA: {}".format(
+                self.stamina))
+        elif(self.food > 0):
+            self.stamina = self.stamina + self.food
+            self.food = 0  # partially fill stamina
+            print("\nYou only have enough food to partially regain your stamina. STAMINA: {}".format(
+                self.stamina))
+        else:
+            print("\nYou are out of food and cannot regain stamina. STAMINA: {}".format(
+                self.stamina))
+
         self.print_food()
         print("Food remaining: {}".format(self.food))
 
