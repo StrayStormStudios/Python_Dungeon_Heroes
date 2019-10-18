@@ -1,6 +1,7 @@
 from sty import fg, bg, ef, rs, RgbFg
 from prompts import prompt_usr
 from hero import Hero
+from loot import Loot
 import random
 import time
 import os
@@ -27,6 +28,7 @@ EPIC_TREASURE_CHANCE = 93
 EXIT_CHANCE = 99
 # 1 percent of the time we reach exit
 hero = None
+loot = Loot()
 
 def intro():
     #Display for Intro
@@ -113,21 +115,21 @@ def create_character():
 
 #enterRoom: enters a new room where the player will battle a monster etc
 #@param --> input A scanner to console input
-#@return --> false - stop playing the game, true - keep playing the game (enter a new room
+#@return --> False - stop playing the game, True - keep playing the game (enter a new room
 def enter_room():
     print()
     print("***************************")
     print("You have entered a new room")
     treasure = 0
     """
-    levelUp = false
+    levelUp = False
     
     if(hero.level == 4 or hero.level == 8 or hero.level == 12):
         if(hero.xp == 0):
         print()
         treasure = (int)(Math.floor(Math.random()*2) + 1) * 1 #1 or 2
         getlevelUp(treasure)
-        levelUp = false
+        levelUp = False
     """
     #get our random room
     room_type = random.random()*100# 0.0 --> 99.9999
@@ -167,7 +169,7 @@ def enter_room():
 
 #choice: allows the user to(E)enter next room, (R)est, (S)status or open(I)inventory, (Q)quit game
 #@param - -> input A scanner to console input
-#@return - -> true when they hit enter... false to leave the game
+#@return - -> True when they hit enter... False to leave the game
 def choice():
     # prompt user
     print("\nThe room is now safe")
@@ -202,6 +204,62 @@ def choice():
                 return False
         """
         return True
+
+#getTreasure - rolls random treasure and allows the user to take it(or convert to money)
+#@param int treasure(1s are basic, 10s are advanced, 100s are epic treasure)
+def get_treasure(treasure):
+   # build a list of items that dropped
+   lootItems = []
+   # number of basic items
+   basic = treasure % 10
+   # advanced items
+   advanced = treasure / 10 % 10
+   # epic items
+   epic = treasure / 100 % 10
+   # setup the basic items
+   for i in range(basic):
+      lootItems.append(loot.getBasic(hero))
+   # setup the advanced items
+   for i in range(advanced):
+      lootItems.append(loot.getAdvanced(hero))
+   # setup the epic items
+   for i in range(epic):
+      lootItems.append(loot.getEpic(hero))
+
+   if(len(lootItems) > 0):
+      # print a list of the items
+      print()
+      print("***************")
+      print("Treasure Items")
+      print("**************")
+      for i in lootItems:
+         print("{} {}\n".format(i.uniqueID, i.name))
+      # ask the user whether they want to(S)ell items or (K)eep items
+      valid_response = False
+      response = ""
+      while(not response == "S" and not response == "K"):
+         response = prompt_usr(
+             "Do you want to (S)ell or (K)eep the items (duplicates will be added to your current weapons): \t", "string")
+      # sell
+      if(response == "S"):
+         for i in lootItems:
+            hero.gold += i.price / 10
+         print("You wisely sell the items")
+      else:
+         # put items in inventory(upgrade if duplicate)
+         for i in lootItems:
+               hero.gold += hero.inventory.append(i)
+         print_case()
+         print("You wisely put the items in your backpack.")
+
+def print_case():
+   print("""
+           ____  
+       .--[[__]]---. 
+      .-----------.| 
+      |           || 
+      |           || 
+      |___________|/      """)
 
 def print_chest():
     print("""
