@@ -16,7 +16,7 @@ Learn python in-depth by remaking an old project made in java. Becoming more flu
 
 Phase Level & Completed |   Feature     | Requirement/Dependencies
 ------------------------| --------------| --------------
-X/√ & High or Low       |  function         | Function; From & For
+X/√ & High or Low       |  function         | Function From & For
 √  LL                   |  Intro            | No requirement, Continue Game is dependant
 √  HL                   |  Prompt User      | No requirement, overall game play
 X  LL                   |  Continue Game    | Intro & Prompt, Create/Play game

@@ -58,6 +58,46 @@ def load_game():
         print("Not an option, Sorry")
         print("Terminating")
 
+#choice: allows the user to(E)enter next room, (R)est, (S)status or open(I)inventory, (Q)quit game
+#@param - -> input A scanner to console input
+#@return - -> true when they hit enter... false to leave the game
+def choice():
+    # prompt user
+    print("\nThe room is now safe")
+    response = ""
+    while(not response == "E"):
+        response = prompt_usr("Do you want to (R)est to recover stamina and health, check your(S)status, open your (I)inventory, " +
+                            " \n(E)enter the next room, Enter the s(H)op, or save and (Q)uit the game. \t", "string").upper()
+        # resting
+        if(response == "R"):
+            hero.rest()
+
+        # status
+        elif(response == "S"):
+            hero.stats()
+
+        # open inventory
+        elif(response == "I"):
+            hero.inventory.handleInventory(hero)
+
+        #elif(response == "H"):
+        #    g_store.enterStore(hero)
+
+        # quit game
+        elif(response == "Q"):
+            return False
+            """
+            try:
+                SaveGame.save(hero, "save_game.txt")
+                return False
+            except FileNotFoundError:
+                print("There was a problem Saving, file not found")
+                return False
+        """
+        return True
+
+
+
 if __name__ == "__main__":
     intro()
     
@@ -70,7 +110,9 @@ if __name__ == "__main__":
     while(game_is_running):
         #print("Starting battle")
         if hero != None:
-            hero.fight_monster()
+            #hero.fight_monster()
+        
+            choice()
         
         play = prompt_usr("Play Again? Y or N: \t", "string").upper()
         if play == "N":

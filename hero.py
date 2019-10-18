@@ -200,31 +200,31 @@ class Hero():
     def rest(self):
         #heal stamina first
         #do they have enough food?
-        if(self.food >= (self.maxStamina - self.stamina)):
-            self.food = self.food - (self.maxStamina - self.stamina)  #enough food to completely fill stamina
-            self.stamina = self.maxStamina
-            print("\nYou completely regain your stamina. STAMINA: " + self.stamina)  
+        if(self.food >= (self.max_stamina - self.stamina)):
+            self.food = self.food - (self.max_stamina - self.stamina)  #enough food to completely fill stamina
+            self.stamina = self.max_stamina
+            print("\nYou completely regain your stamina. STAMINA: {}".format(self.stamina))
         elif(self.food > 0):
             self.stamina = self.stamina + self.food
             self.food = 0  #partially fill stamina
-            print("\nYou only have enough food to partially regain your stamina. STAMINA: " + self.stamina)
+            print("\nYou only have enough food to partially regain your stamina. STAMINA: {}".format(self.stamina))
         else:
-            print("\nYou are out of food and cannot regain stamina. STAMINA: " + self.stamina)
+            print("\nYou are out of food and cannot regain stamina. STAMINA: {}".format(self.stamina))
         
         #heal health
-        if(self.food >= (self.maxHealth - self.health) * 10):
-            self.food = self.food - (self.maxHealth - self.health) * 10  #enough food to completely heal
-            self.health = self.maxHealth
-            print("\nYou completely heal up! HEALTH: " + self.health)
+        if(self.food >= (self.max_health - self.health) * 10):
+            self.food = self.food - (self.max_health - self.health) * 10  #enough food to completely heal
+            self.health = self.max_health
+            print("\nYou completely heal up! HEALTH: {}".format(self.health))
         elif(self.food > 0):
             self.health = self.health + self.food / 10
             self.food = 0
-            print("\nYou only have enough food to partially restore your health. HEALTH: " + self.health)
+            print("\nYou only have enough food to partially restore your health. HEALTH: {}".format(self.health))
         else :
-            print("\nYou are out of food and cannot regain health. HEALTH: " + self.health)
+            print("\nYou are out of food and cannot regain health. HEALTH: {}".format(self.health))
         
         self.print_food()
-        print("Food remaining: " + self.food)
+        print("Food remaining: {}".format(self.food))
 
     def __repr__(self):
         print("""{} has
