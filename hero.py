@@ -1,5 +1,6 @@
 from monster_list import MonsterList
 from prompts import prompt_usr
+from printables import print_money, print_food
 
 class Hero():
     def __init__(self, name, character_class=None):
@@ -93,14 +94,14 @@ class Hero():
             print("Food Looted: {}! Your new total is: {}".format(food, self.food))
         else:
             print("You have the max amount of food you can hold")
-        self.print_food()
+        print_food()
         return self.food
     
     #give_gold --> gives gold to the player
     def give_gold(self, gold):
         self.gold += gold
         print("Gold Looted: {}! Your new total is: {}".format(gold, self.gold))
-        self.print_money()
+        print_money()
         return self.gold
    
     #give_XP --> gives xp to the player
@@ -168,7 +169,7 @@ class Hero():
                     valid_input = True
                 else:
                     print("Invalid input!")
-            # end validInput while
+            # end valid_input while
 
             # generate an attack
             flee = cur_monster.singleAttack(self, response)
@@ -231,7 +232,7 @@ class Hero():
             print("\nYou are out of food and cannot regain stamina. STAMINA: {}".format(
                 self.stamina))
 
-        self.print_food()
+        print_food()
         print("Food remaining: {}".format(self.food))
 
     def __repr__(self):
@@ -243,28 +244,3 @@ class Hero():
         and speed of:\t {}
         """.format(self.name, self.health, self.max_health, self.stamina, self.max_stamina, self.strength, self.defense, self.protection, self.speed))
 
-    def print_food(self):
-        print("""
-                                .-'''''-.
-                                |'-----'|
-                                |-.....-|
-                                |       |
-                                |       |
-            _,._                |       |
-        __.o`   o`\"-.           |       |
-    .-O o `\"-.o   O )_,._    |       |   
-    ( o   O  o )--.-\"`O   o\"-.`'-----'`
-    '--------'  (   o  O    o)
-                    `----------`    """)
-
-    def print_money(self):
-        print("""
-              \\`\\/\\/\\/`/
-               )======(
-             .'        '.
-            /    _||__   \\
-           /    (_||_     \\
-          |     __||_)     |
-          |       ||       |
-          '.              .'
-            '------------'      """)

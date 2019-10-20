@@ -6,11 +6,11 @@ class Loot():
     # constructor
     def __init__(self):
         # set up lists
-        epicItems = []
+        self.epicItems = []
         # stores epic items
-        advancedItems = []
+        self.advancedItems = []
         # stored advanced items
-        basicItems = []
+        self.basicItems = []
         # store basic items
         #private Random rand
         # random number generator
@@ -162,7 +162,7 @@ class Loot():
         # speed stats
         speed = 0
 
-        tempItem = Item(name, desc, uniqueID, price, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
+        tempItem = Item(name, desc, uniqueID, price, useable, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
         self.basicItems.append(tempItem)
     #end Branch
 
@@ -189,7 +189,7 @@ class Loot():
         # speed stats
         speed = 0
 
-        tempItem = Item(name, desc, uniqueID, price, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
+        tempItem = Item(name, desc, uniqueID, price, useable, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
         self.basicItems.append(tempItem)
     #end Dagger
 
@@ -216,7 +216,7 @@ class Loot():
         # speed stats
         speed = 0
 
-        tempItem = Item(name, desc, uniqueID, price, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
+        tempItem = Item(name, desc, uniqueID, price, useable, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
         self.advancedItems.append(tempItem)
     #end long sword
 
@@ -247,7 +247,7 @@ class Loot():
         # speed stats
         speed = 0
 
-        tempItem = Item(name, desc, uniqueID, price, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
+        tempItem = Item(name, desc, uniqueID, price, useable, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
         self.epicItems.append(tempItem)
     #end ClayMore
 
@@ -274,7 +274,7 @@ class Loot():
         # speed stats
         speed = 0
 
-        tempItem = Item(name, desc, uniqueID, price, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
+        tempItem = Item(name, desc, uniqueID, price, useable, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
         self.epicItems.append(tempItem)
     #end flaming sword
 
@@ -303,7 +303,7 @@ class Loot():
       # speed stats
       speed = 0
 
-      tempItem = Item(name, desc, uniqueID, price, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
+      tempItem = Item(name, desc, uniqueID, price, useable, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
       self.basicItems.append(tempItem)
     # end leather armor
     # ---advanced---
@@ -330,7 +330,7 @@ class Loot():
         # speed stats
         speed = 0
 
-        tempItem = Item(name, desc, uniqueID, price, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
+        tempItem = Item(name, desc, uniqueID, price, useable, _type, level, findLevel, hands, health, stamina, attack, strength, defense, protection, speed)
         self.basicItems.append(tempItem)
    #end Iron Armor
    # ---epic---

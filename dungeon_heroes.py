@@ -1,4 +1,6 @@
 from sty import fg, bg, ef, rs, RgbFg
+from printables import print_case, print_chest
+from save_game import Save_Game
 from prompts import prompt_usr
 from hero import Hero
 from loot import Loot
@@ -32,30 +34,27 @@ loot = Loot()
 
 def intro():
     #Display for Intro
-    print("""
+    print(fg.green, bg.black +"""
     ******----******----******
     Welcome to Dungeon Heroes!
-    ******----******----******
+    ******----******----******""" + fg.red + """
+    \^~~~~\\   )  (   /~~~~^/  
+     ) *** \\  {**}  / *** (   
+      ) *** \\_ ^^ _/ *** (    
+      ) ****   vv   **** (    
+       )_****      ****_(     
+         )*** m  m ***(      """ + fg.rs, bg.rs)
     
-    \^~~~~\\   )  (   /~~~~^/
-     ) *** \\  {**}  / *** (
-      ) *** \\_ ^^ _/ *** (
-      ) ****   vv   **** (
-       )_****      ****_(
-         )*** m  m ***(
-    """)
-
 def load_game():
-    response = prompt_usr(
-        "Select (N)ew game or (C)ontinue: \t", "string").upper()
+    response = prompt_usr("Select (N)ew game or (C)ontinue: \t", "string").upper()
     if(response == "C"):
-        #try:
-            #hero = SaveGame.load("saveGame.txt")
-            #print("File Loaded")
-        #catch(FileNotFoundException e):
-            #print("SaveGame not found")
-            #createCharacter(g_input)
-        hero = Hero("bill", "warrior")
+        try:
+            hero = Save_Game.load("saveGame.txt")
+            print("File Loaded")
+        except FileNotFoundError:
+            print("SaveGame not found")
+            create_character()
+        #hero = Hero("bill", "warrior")
         return hero
     elif(response == "N"):
         hero = restart()
@@ -121,16 +120,16 @@ def enter_room():
     print("***************************")
     print("You have entered a new room")
     treasure = 0
-    """
+    
     levelUp = False
     
     if(hero.level == 4 or hero.level == 8 or hero.level == 12):
         if(hero.xp == 0):
-        print()
-        treasure = (int)(Math.floor(Math.random()*2) + 1) * 1 #1 or 2
-        getlevelUp(treasure)
-        levelUp = False
-    """
+            print()
+            treasure = random.randint()*2 + 1 * 1 #1 or 2
+            #self.getlevelUp(treasure)
+            levelUp = False
+    
     #get our random room
     room_type = random.random()*100# 0.0 --> 99.9999
     #are we at the end of the dungeon?
@@ -141,19 +140,19 @@ def enter_room():
     if(room_type >= EPIC_TREASURE_CHANCE):
         print("$$$EPIC TREASURE ROOM$$$")
         print_chest()
-        #treasure = (int)(Math.floor(Math.random()*2) + 1) * 100 #100 or 200
+        treasure = random.randint()*2 + 1 * 100 #100 or 200
     
     #is this an advanced treasure room?
     elif(room_type >= ADVANCED_TREASURE_CHANCE):
         print("$$$Advanced Treasure Room$$")
         print_chest()
-        #treasure = (int)(Math.floor(Math.random()*2) + 1) * 10 #10 or 20
+        treasure = random.randint()*2 + 1 * 10 #10 or 20
     
     #is this a basic treasure room?
     elif(room_type >= BASIC_TREASURE_CHANCE):
         print("Basic Treasure Room!")
         print_chest()
-        #treasure = (int)(Math.floor(Math.random()*2) + 1) * 1 #1 or 2
+        treasure = random.randint()*2 + 1 * 1 #1 or 2
     
     #otherwise we fight a monster.
     else:
@@ -162,7 +161,7 @@ def enter_room():
             return False  #they have died... game over
         
     #gives the player randomly rolled treasure
-    #self.get_treasure(treasure)
+    get_treasure(treasure)
     
     #handle Choosing whats next
     return choice()
@@ -195,84 +194,60 @@ def choice():
         # quit game
         elif(response == "Q"):
             return False
-            """
             try:
-                SaveGame.save(hero, "save_game.txt")
+                Save_Game.save(hero, "save_game.txt")
                 return False
             except FileNotFoundError:
                 print("There was a problem Saving, file not found")
                 return False
-        """
         return True
 
 #getTreasure - rolls random treasure and allows the user to take it(or convert to money)
 #@param int treasure(1s are basic, 10s are advanced, 100s are epic treasure)
 def get_treasure(treasure):
-   # build a list of items that dropped
-   lootItems = []
-   # number of basic items
-   basic = treasure % 10
-   # advanced items
-   advanced = treasure / 10 % 10
-   # epic items
-   epic = treasure / 100 % 10
-   # setup the basic items
-   for i in range(basic):
-      lootItems.append(loot.getBasic(hero))
-   # setup the advanced items
-   for i in range(advanced):
-      lootItems.append(loot.getAdvanced(hero))
-   # setup the epic items
-   for i in range(epic):
-      lootItems.append(loot.getEpic(hero))
+    # build a list of items that dropped
+    lootItems = []
+    # number of basic items
+    basic = treasure % 10
+    # advanced items
+    advanced = treasure / 10 % 10
+    # epic items
+    epic = treasure / 100 % 10
+    # setup the basic items
+    for i in range(basic):
+        lootItems.append(loot.getBasic(hero))
+    # setup the advanced items
+    for i in range(advanced):
+        lootItems.append(loot.getAdvanced(hero))
+    # setup the epic items
+    for i in range(epic):
+        lootItems.append(loot.getEpic(hero))
 
-   if(len(lootItems) > 0):
-      # print a list of the items
-      print()
-      print("***************")
-      print("Treasure Items")
-      print("**************")
-      for i in lootItems:
-         print("{} {}\n".format(i.uniqueID, i.name))
-      # ask the user whether they want to(S)ell items or (K)eep items
-      valid_response = False
-      response = ""
-      while(not response == "S" and not response == "K"):
-         response = prompt_usr(
-             "Do you want to (S)ell or (K)eep the items (duplicates will be added to your current weapons): \t", "string")
-      # sell
-      if(response == "S"):
-         for i in lootItems:
-            hero.gold += i.price / 10
-         print("You wisely sell the items")
-      else:
-         # put items in inventory(upgrade if duplicate)
-         for i in lootItems:
-               hero.gold += hero.inventory.append(i)
-         print_case()
-         print("You wisely put the items in your backpack.")
-
-def print_case():
-   print("""
-           ____  
-       .--[[__]]---. 
-      .-----------.| 
-      |           || 
-      |           || 
-      |___________|/      """)
-
-def print_chest():
-    print("""
-
-         __________
-        /\\____;;___\\
-       | /         /
-       `. ()()vv() .
-        |\\()()^^() \\
-        | |---------|
-        \\ |    ))   |
-         \\|_________|
-        """)
+    if(len(lootItems) > 0):
+        # print a list of the items
+        print()
+        print("***************")
+        print("Treasure Items")
+        print("**************")
+        for i in lootItems:
+            print("{} {}\n".format(i.uniqueID, i.name))
+        # ask the user whether they want to(S)ell items or (K)eep items
+        valid_response = False
+        response = ""
+        while(not response == "S" and not response == "K"):
+            response = prompt_usr(
+                "Do you want to (S)ell or (K)eep the items (duplicates will be added to your current weapons): \t", "string")
+        # sell
+        if(response == "S"):
+            for i in lootItems:
+                hero.gold += i.price / 10
+                print("You wisely sell the items")
+    else:
+        # put items in inventory(upgrade if duplicate)
+        for i in lootItems:
+            hero.gold += hero.inventory.append(i)
+        print_case()
+        print("You wisely put the items in your backpack.")
 
 if __name__ == "__main__":
     #Print a cool intro

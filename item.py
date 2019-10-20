@@ -1,7 +1,7 @@
 #Item class - -> keeps track of items
 class Item():
     #Constructor
-    def Item(self, name, desc, uniqueID, price, _type, level, findLevel, hands, 
+    def __init__(self, name, desc, uniqueID, price, useable, _type, level, findLevel, hands, 
                 health, stamina, attack, strength, defense, protection, speed):
         #description stats
         self.name = name
