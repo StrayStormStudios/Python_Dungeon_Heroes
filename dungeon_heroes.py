@@ -1,6 +1,6 @@
 from sty import fg, bg, ef, rs, RgbFg
 from printables import print_case, print_chest
-from save_game import Save_Game
+from save_game import save, load
 from prompts import prompt_usr
 from hero import Hero
 from loot import Loot
@@ -49,8 +49,9 @@ def load_game():
     response = prompt_usr("Select (N)ew game or (C)ontinue: \t", "string").upper()
     if(response == "C"):
         try:
-            hero = Save_Game.load("saveGame.txt")
-            print("File Loaded")
+            hero = load("saveGame.txt")
+            hero.stats()
+            #print("File Loaded")
         except FileNotFoundError:
             print("SaveGame not found")
             create_character()
@@ -193,9 +194,9 @@ def choice():
 
         # quit game
         elif(response == "Q"):
-            return False
+            #return False
             try:
-                Save_Game.save(hero, "save_game.txt")
+                save(hero, r"save_game.txt")
                 return False
             except FileNotFoundError:
                 print("There was a problem Saving, file not found")
