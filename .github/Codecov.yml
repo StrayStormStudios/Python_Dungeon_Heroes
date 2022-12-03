@@ -1,3 +1,11 @@
+# profiling:
+#   critical_files_paths:
+#     - src/gameplay/*
+#     - src/entities/*
+
+# comment:
+#   show_critical_paths: true
+
 codecov:
   require_ci_to_pass: false
   notify:
