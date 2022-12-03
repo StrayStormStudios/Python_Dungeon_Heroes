@@ -32,3 +32,14 @@ jobs:
         name: codecov-umbrella
         path_to_write_report: ./coverage/codecov_report.txt
         verbose: true
+coverage:
+  status:
+    project:
+      default:
+        informational: true
+    patch:
+      default:
+        informational: true
+
+# When modifying this file, please validate using
+curl -X POST --data-binary @Codecov.yml https://codecov.io/validate
