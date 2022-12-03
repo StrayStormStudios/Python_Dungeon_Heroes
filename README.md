@@ -1,6 +1,7 @@
 # PROJECT TITLE: Dungeon Heroes
 
 [![codecov](https://codecov.io/github/StrayStormStudios/Python_Dungeon_Heroes/branch/master/graph/badge.svg?token=--)](https://app.codecov.io/github/StrayStormStudios/Python_Dungeon_Heroes)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/fork/github/StrayStormStudios/Python_Dungeon_Heroes)
 
 ## HOW TO START self PROJECT
 
